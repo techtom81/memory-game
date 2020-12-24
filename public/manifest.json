@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Frozen game",
+  "name": "Frozen memory game",
   "icons": [
     {
       "src": "favicon.ico",
