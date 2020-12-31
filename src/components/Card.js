@@ -1,13 +1,21 @@
-const Card = () => {
+import React from 'react';
+
+const Card = (props) => {
     return (
-        <button id="1" data-set="a" class="card">
-            <div className="front">
-                <img src="https://i.postimg.cc/mD3X3yPs/frozen.png" alt="frozen" />
-            </div>
-            <div className="back">
-                <img src="https://i.postimg.cc/yN98nM1Z/olaf.png" alt="" />
-            </div>
-        </button>
+        <div className="card-wrapper">
+            <button
+                id={props.id}
+                data-set={props.set}
+                className={props.cardFlipped ? 'card is-flipped' : 'card'}
+                onClick={props.clickHandler()}>
+                <div className="front">
+                    <img src={props.backSrc} alt="" draggable="false" />
+                </div>
+                <div className="back">
+                    <img src={props.frontSrc} alt="" draggable="false" />
+                </div>
+            </button>
+        </div>
     );
 };
 
