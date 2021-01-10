@@ -6,7 +6,7 @@ const ThemeSelect = React.memo((props) => {
             className={'theme-select-btn' + (props.id === props.theme ? ' is-active' : '')}
             id={props.id}
             disabled={props.disabled}
-            onClick={props.clickHandler()}>
+            onClick={props.clickHandler}>
             <img src={props.logo} alt={props.themeName} draggable="false" />
         </button>
     );

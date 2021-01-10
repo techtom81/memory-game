@@ -12,12 +12,12 @@ const App = () => {
     const [cardSetArray, setCardSetArray] = useState([]);
     const [gameArray, setGameArray] = useState([]);
 
-    const themeBtnClickHandler = (e) => {
+    function themeBtnClickHandler(e) {
         if (gamePaused || gameStarted) return false;
 
         const btn = e.currentTarget;
         setTheme(Number(btn.id));
-    };
+    }
 
     function cardClickHandler(e) {
         if (gamePaused) return false;
@@ -111,7 +111,7 @@ const App = () => {
                         themeName={x.name}
                         disabled={gameStarted}
                         theme={theme}
-                        clickHandler={() => themeBtnClickHandler}
+                        clickHandler={themeBtnClickHandler}
                     />
                 ))}
             </div>
