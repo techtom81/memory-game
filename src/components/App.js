@@ -1,26 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useStateValue } from '../store';
 import Card from './Card';
+import ThemeSelect from './ThemeSelect';
 
 const App = () => {
-    const [{ cards }, dispatch] = useStateValue();
+    const [{ themes, cards }, dispatch] = useStateValue();
+
+    const [theme, setTheme] = useState(0);
+    const [gameStarted, setGameStarted] = useState(false);
     const [gamePaused, setGamePaused] = useState(false);
     const [cardSetArray, setCardSetArray] = useState([]);
     const [gameArray, setGameArray] = useState([]);
-    const [gameWon, setGameWon] = useState(false);
 
-    const clickHandler = (e) => {
+    const themeBtnClickHandler = (e) => {
+        if (gamePaused || gameStarted) return false;
+
+        const btn = e.currentTarget;
+        setTheme(Number(btn.id));
+    };
+
+    function cardClickHandler(e) {
         if (gamePaused) return false;
 
         const card = e.currentTarget;
         const cardId = Number(card.id);
         const cardSet = card.dataset.set;
-        const cardIndex = cards.findIndex((card) => card.id === cardId);
+        const cardIndex = cards[theme].findIndex((card) => card.id === cardId);
 
-        if (cards[cardIndex].cardFlipped) return false;
+        if (cards[theme][cardIndex].cardFlipped) return false;
 
         dispatch({
             type: 'toggleCard',
+            theme,
             cardIndex,
             flipped: true,
         });
@@ -37,56 +48,75 @@ const App = () => {
         } else {
             setCardSetArray(cardSet);
         }
-    };
+    }
 
     const resetCards = () => {
         dispatch({
             type: 'resetCards',
             value: gameArray,
+            theme,
         });
 
         setGamePaused(false);
     };
 
-    const randomizeCards = () => {
+    const shuffleCards = () => {
         dispatch({
-            type: 'randomizeCards',
+            type: 'shuffleCards',
+            theme,
         });
     };
 
     useEffect(() => {
-        randomizeCards();
+        shuffleCards();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [theme]);
+
+    useEffect(() => {
+        if (cardSetArray.length > 0 || gameArray.length > 0) {
+            setGameStarted(true);
+        } else {
+            setGameStarted(false);
+        }
+    }, [gameArray, cardSetArray]);
 
     useEffect(() => {
         if (gameArray.length === 6) {
             setGamePaused(true);
             setTimeout(() => {
-                alert('Well done!');
+                // game won
                 dispatch({
                     type: 'resetAllCards',
+                    theme,
                 });
                 setGameArray([]);
-                setGameWon(true);
-                setGamePaused(false);
             }, 1000);
-        }
-    }, [dispatch, gameArray]);
 
-    useEffect(() => {
-        setGameWon(false);
-        setTimeout(() => {
-            dispatch({
-                type: 'randomizeCards',
-            });
-        }, 1000);
-    }, [dispatch, gameWon]);
+            setTimeout(() => {
+                shuffleCards();
+                setGamePaused(false);
+            }, 1500);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [gameArray, theme]);
 
     return (
-        <div className="App">
+        <div className={'App ' + themes[theme].name}>
+            <div className="theme-btn-wrapper">
+                {themes.map((x) => (
+                    <ThemeSelect
+                        key={x.id}
+                        id={x.id}
+                        logo={x.logo}
+                        themeName={x.name}
+                        disabled={gameStarted}
+                        theme={theme}
+                        clickHandler={() => themeBtnClickHandler}
+                    />
+                ))}
+            </div>
             <div className="container">
-                {cards.map((x) => (
+                {cards[theme].map((x) => (
                     <Card
                         key={x.id}
                         backSrc={x.backSrc}
@@ -94,7 +124,7 @@ const App = () => {
                         set={x.set}
                         id={x.id}
                         cardFlipped={x.cardFlipped}
-                        clickHandler={() => clickHandler}
+                        clickHandler={cardClickHandler}
                     />
                 ))}
             </div>

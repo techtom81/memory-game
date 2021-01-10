@@ -1,12 +1,24 @@
+:root {
+    --pink: #fddbe1;
+    --blue: #2b64b9;
+    --light-blue: #88b7ff;
+}
+
 *,
 *:before,
 *:after {
     box-sizing: border-box;
 }
 
+html,
+body,
+#root,
+.App {
+    height: 100%;
+}
+
 html {
     font-size: 16px;
-    height: 100%;
 }
 
 body {
@@ -15,23 +27,30 @@ body {
         'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.App {
     padding: 1rem;
-    height: 100%;
-    background-color: #fddbe1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+    &.frozen {
+        background-color: var(--pink);
+    }
+
+    &.lego {
+        background-color: var(--light-blue);
+    }
 }
 
 .container {
     display: grid;
-    grid-template-columns: repeat(3, 200px);
+    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+    grid-column-gap: 1.5rem;
     column-gap: 1.5rem;
+    grid-row-gap: 1.5rem;
     row-gap: 1.5rem;
-    max-width: 920px;
-    margin: 0 auto;
+    justify-content: center;
 
-    @media only screen and (min-width: 992px) {
-        grid-template-columns: repeat(4, minmax(200px, 1fr));
+    @media only screen and (min-width: 768px) {
+        grid-template-columns: repeat(4, minmax(85px, 200px));
     }
 }
