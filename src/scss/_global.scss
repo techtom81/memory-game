@@ -51,6 +51,6 @@ body {
     justify-content: center;
 
     @media only screen and (min-width: 768px) {
-        grid-template-columns: repeat(4, minmax(85px, 200px));
+        grid-template-columns: repeat(4, minmax(85px, 175px));
     }
 }
