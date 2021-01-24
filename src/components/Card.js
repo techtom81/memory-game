@@ -6,7 +6,7 @@ const Card = React.memo((props) => {
             <button
                 id={props.id}
                 data-set={props.set}
-                className={props.cardFlipped ? 'card is-flipped' : 'card'}
+                className={`card ${props.cardFlipped ? 'is-flipped' : ''} ${props.cardMatched ? ' is-matched' : ''}`}
                 onClick={props.clickHandler}>
                 <div className="front">
                     <img src={props.backSrc} alt="" draggable="false" />

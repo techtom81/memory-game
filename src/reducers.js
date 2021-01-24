@@ -11,6 +11,17 @@ export const reducer = (state, action) => {
                 ...state,
                 cards: cardsArray,
             };
+        case 'matchCard':
+            cardTheme.forEach((card) => {
+                if (card.set === action.matchingSet) card.cardMatched = true;
+            });
+
+            cardsArray[action.theme] = cardTheme;
+
+            return {
+                ...state,
+                cards: cardsArray,
+            };
         case 'resetCards':
             cardTheme.forEach((card) => {
                 if (!action.value.includes(card.set)) card.cardFlipped = false;
@@ -22,7 +33,11 @@ export const reducer = (state, action) => {
                 cards: cardsArray,
             };
         case 'resetAllCards':
-            cardTheme.forEach((card) => (card.cardFlipped = false));
+            cardTheme.forEach((card) => {
+                card.cardFlipped = false;
+                card.cardMatched = false;
+            });
+
             cardsArray[action.theme] = cardTheme;
 
             return {

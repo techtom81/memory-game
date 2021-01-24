@@ -23,6 +23,10 @@
         &.is-flipped {
             transform: rotate3d(0, 1, 0, -180deg);
             box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+
+            &.is-matched {
+                animation: growSpin 1s ease-in-out;
+            }
         }
 
         .front {
@@ -75,5 +79,33 @@
         .front {
             padding: 8px;
         }
+    }
+}
+
+// @keyframes grow {
+//     0% {
+//         transform: rotate3d(0, 1, 0, -180deg) scale3d(1, 1, 1);
+//     }
+
+//     50% {
+//         transform: rotate3d(0, 1, 0, -180deg) scale3d(1.15, 1.15, 1.15);
+//     }
+
+//     100% {
+//         transform: rotate3d(0, 1, 0, -180deg) scale3d(1, 1, 1);
+//     }
+// }
+
+@keyframes growSpin {
+    0% {
+        transform: rotate3d(0, 1, 0, -180deg) scale3d(1, 1, 1) rotate3d(0, 0, 1, 0deg);
+    }
+
+    45% {
+        transform: rotate3d(0, 1, 0, -180deg) scale3d(1.15, 1.15, 1.15) rotate3d(0, 0, 1, 0deg);
+    }
+
+    100% {
+        transform: rotate3d(0, 1, 0, -180deg) scale3d(1, 1, 1) rotate3d(0, 0, 1, 360deg);
     }
 }

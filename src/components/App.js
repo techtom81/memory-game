@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useStateValue } from '../store';
 import Card from './Card';
 import ThemeSelect from './ThemeSelect';
+import MyConfetti from './MyConfetti';
+import { useAudio } from 'react-use';
 
 const App = () => {
     const [{ themes, cards }, dispatch] = useStateValue();
@@ -9,8 +11,14 @@ const App = () => {
     const [theme, setTheme] = useState(0);
     const [gameStarted, setGameStarted] = useState(false);
     const [gamePaused, setGamePaused] = useState(false);
+    const [gameWon, setGameWon] = useState(false);
     const [cardSetArray, setCardSetArray] = useState([]);
     const [gameArray, setGameArray] = useState([]);
+    const [audio, state, controls, ref] = useAudio({});
+
+    const soundFlip = '/audio/plunger-pop.mp3';
+    const soundIncorrect = '/audio/incorrect.mp3';
+    const soundCorrect = '/audio/correct.mp3';
 
     function themeBtnClickHandler(e) {
         if (gamePaused || gameStarted) return false;
@@ -29,6 +37,9 @@ const App = () => {
 
         if (cards[theme][cardIndex].cardFlipped) return false;
 
+        ref.current.src = soundFlip;
+        controls.play();
+
         dispatch({
             type: 'toggleCard',
             theme,
@@ -37,12 +48,37 @@ const App = () => {
         });
 
         if (cardSetArray.length > 0) {
+            setGamePaused(true);
+
             if (cardSetArray.includes(cardSet)) {
+                // match found
                 setGameArray((prevCardSet) => [...prevCardSet, cardSet]);
+
+                setTimeout(() => {
+                    ref.current.src = soundCorrect;
+                    controls.play();
+
+                    // animate matching cards
+                    dispatch({
+                        type: 'matchCard',
+                        theme,
+                        matchingSet: cardSet,
+                    });
+                }, 500);
+
                 setCardSetArray([]);
+
+                setTimeout(() => {
+                    setGamePaused(false);
+                }, 1000);
             } else {
+                // no match
                 setCardSetArray([]);
-                setGamePaused(true);
+
+                setTimeout(() => {
+                    ref.current.src = soundIncorrect;
+                    controls.play();
+                }, 500);
                 setTimeout(resetCards, 1000);
             }
         } else {
@@ -83,19 +119,20 @@ const App = () => {
     useEffect(() => {
         if (gameArray.length === 6) {
             setGamePaused(true);
+            setGameWon(true);
             setTimeout(() => {
-                // game won
                 dispatch({
                     type: 'resetAllCards',
                     theme,
                 });
                 setGameArray([]);
-            }, 1000);
+                setGameWon(false);
+            }, 4500);
 
             setTimeout(() => {
                 shuffleCards();
                 setGamePaused(false);
-            }, 1500);
+            }, 5000);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameArray, theme]);
@@ -116,6 +153,8 @@ const App = () => {
                 ))}
             </div>
             <div className="container">
+                {audio}
+                <MyConfetti dropRate={gameWon ? 200 : 0} />
                 {cards[theme].map((x) => (
                     <Card
                         key={x.id}
@@ -124,7 +163,9 @@ const App = () => {
                         set={x.set}
                         id={x.id}
                         cardFlipped={x.cardFlipped}
+                        cardMatched={x.cardMatched}
                         clickHandler={cardClickHandler}
+                        audio={controls.play}
                     />
                 ))}
             </div>
