@@ -4,6 +4,10 @@
     perspective: 800px;
     user-select: none;
 
+    &.is-matched {
+        animation: grow 0.35s forwards, spin 0.45s 0.35s linear, shrink 0.35s 0.8s forwards;
+    }
+
     .card {
         position: absolute;
         top: 0;
@@ -23,10 +27,6 @@
         &.is-flipped {
             transform: rotate3d(0, 1, 0, -180deg);
             box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
-
-            &.is-matched {
-                animation: growSpin 1s ease-in-out;
-            }
         }
 
         .front {
@@ -82,30 +82,44 @@
     }
 }
 
-// @keyframes grow {
-//     0% {
-//         transform: rotate3d(0, 1, 0, -180deg) scale3d(1, 1, 1);
-//     }
-
-//     50% {
-//         transform: rotate3d(0, 1, 0, -180deg) scale3d(1.15, 1.15, 1.15);
-//     }
-
-//     100% {
-//         transform: rotate3d(0, 1, 0, -180deg) scale3d(1, 1, 1);
-//     }
-// }
-
-@keyframes growSpin {
-    0% {
-        transform: rotate3d(0, 1, 0, -180deg) scale3d(1, 1, 1) rotate3d(0, 0, 1, 0deg);
+@keyframes grow {
+    from {
+        transform: scale3d(1, 1, 1);
     }
 
-    45% {
-        transform: rotate3d(0, 1, 0, -180deg) scale3d(1.15, 1.15, 1.15) rotate3d(0, 0, 1, 0deg);
+    to {
+        transform: scale3d(1.15, 1.15, 1.15);
+    }
+}
+
+@keyframes shrink {
+    from {
+        transform: scale3d(1.15, 1.15, 1.15);
+    }
+
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: scale3d(1.15, 1.15, 1.15) rotate(0deg);
+    }
+
+    25% {
+        transform: scale3d(1.15, 1.15, 1.15) rotate(90deg);
+    }
+
+    50% {
+        transform: scale3d(1.15, 1.15, 1.15) rotate(180deg);
+    }
+
+    75% {
+        transform: scale3d(1.15, 1.15, 1.15) rotate(270deg);
     }
 
     100% {
-        transform: rotate3d(0, 1, 0, -180deg) scale3d(1, 1, 1) rotate3d(0, 0, 1, 360deg);
+        transform: scale3d(1.15, 1.15, 1.15) rotate(360deg);
     }
 }

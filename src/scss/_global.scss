@@ -1,7 +1,8 @@
 :root {
-    --pink: #fddbe1;
+    --pink: #ffc5cf;
     --blue: #2b64b9;
     --light-blue: #88b7ff;
+    --purple: #9b5e96;
 }
 
 *,
@@ -39,6 +40,10 @@ body {
     &.lego {
         background-color: var(--light-blue);
     }
+
+    &.masha {
+        background-color: var(--purple);
+    }
 }
 
 .container {
@@ -53,4 +58,10 @@ body {
     @media only screen and (min-width: 768px) {
         grid-template-columns: repeat(4, minmax(85px, 175px));
     }
+}
+
+.is-hidden {
+    position: absolute;
+    visibility: hidden;
+    z-index: -1;
 }

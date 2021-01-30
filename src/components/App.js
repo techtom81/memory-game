@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useStateValue } from '../store';
+import { Howl, Howler } from 'howler';
+import MyConfetti from './MyConfetti';
+
 import Card from './Card';
 import ThemeSelect from './ThemeSelect';
-import MyConfetti from './MyConfetti';
-import { useAudio } from 'react-use';
+import soundFlipSrc from '../audio/plunger-pop.mp3';
+import soundCorrectSrc from '../audio/correct.mp3';
+import soundIncorrectSrc from '../audio/incorrect.mp3';
+import soundWonSrc from '../audio/fanfare.mp3';
 
 const App = () => {
     const [{ themes, cards }, dispatch] = useStateValue();
@@ -14,11 +19,22 @@ const App = () => {
     const [gameWon, setGameWon] = useState(false);
     const [cardSetArray, setCardSetArray] = useState([]);
     const [gameArray, setGameArray] = useState([]);
-    const [audio, state, controls, ref] = useAudio({});
 
-    const soundFlip = '/audio/plunger-pop.mp3';
-    const soundIncorrect = '/audio/incorrect.mp3';
-    const soundCorrect = '/audio/correct.mp3';
+    const soundFlip = new Howl({
+        src: [soundFlipSrc],
+    });
+
+    const soundcorrect = new Howl({
+        src: [soundCorrectSrc],
+    });
+
+    const soundIncorrect = new Howl({
+        src: [soundIncorrectSrc],
+    });
+
+    const soundWon = new Howl({
+        src: [soundWonSrc],
+    });
 
     function themeBtnClickHandler(e) {
         if (gamePaused || gameStarted) return false;
@@ -37,8 +53,7 @@ const App = () => {
 
         if (cards[theme][cardIndex].cardFlipped) return false;
 
-        ref.current.src = soundFlip;
-        controls.play();
+        soundFlip.play();
 
         dispatch({
             type: 'toggleCard',
@@ -55,8 +70,7 @@ const App = () => {
                 setGameArray((prevCardSet) => [...prevCardSet, cardSet]);
 
                 setTimeout(() => {
-                    ref.current.src = soundCorrect;
-                    controls.play();
+                    soundcorrect.play();
 
                     // animate matching cards
                     dispatch({
@@ -76,8 +90,7 @@ const App = () => {
                 setCardSetArray([]);
 
                 setTimeout(() => {
-                    ref.current.src = soundIncorrect;
-                    controls.play();
+                    soundIncorrect.play();
                 }, 500);
                 setTimeout(resetCards, 1000);
             }
@@ -120,6 +133,7 @@ const App = () => {
         if (gameArray.length === 6) {
             setGamePaused(true);
             setGameWon(true);
+            soundWon.play();
             setTimeout(() => {
                 dispatch({
                     type: 'resetAllCards',
@@ -153,7 +167,6 @@ const App = () => {
                 ))}
             </div>
             <div className="container">
-                {audio}
                 <MyConfetti dropRate={gameWon ? 200 : 0} />
                 {cards[theme].map((x) => (
                     <Card
@@ -165,7 +178,6 @@ const App = () => {
                         cardFlipped={x.cardFlipped}
                         cardMatched={x.cardMatched}
                         clickHandler={cardClickHandler}
-                        audio={controls.play}
                     />
                 ))}
             </div>
