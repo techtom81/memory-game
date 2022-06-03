@@ -6,13 +6,14 @@ import { Card } from './Card'
 import { ThemeSelect } from './ThemeSelect'
 import { Fireworks } from './Fireworks'
 
+import { themes } from '../themes'
 import soundFlipSrc from '../audio/plunger-pop.mp3'
 import soundCorrectSrc from '../audio/correct.mp3'
 import soundIncorrectSrc from '../audio/incorrect.mp3'
 import soundWonSrc from '../audio/fanfare.mp3'
 
 export const App = () => {
-  const [{ themes, cards }, dispatch] = useStateValue()
+  const [{ cards }, dispatch] = useStateValue()
 
   const [theme, setTheme] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
