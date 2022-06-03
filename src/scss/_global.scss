@@ -1,67 +1,70 @@
 :root {
-    --pink: #ffc5cf;
-    --blue: #2b64b9;
-    --light-blue: #88b7ff;
-    --purple: #9b5e96;
+  --pink: #ffc5cf;
+  --blue: #2b64b9;
+  --light-blue: #88b7ff;
+  --purple: #9b5e96;
+  --blue-grad: radial-gradient(circle, rgba(14, 14, 217, 1) 30%, rgba(0, 212, 255, 1) 100%);
+  --red-grad: radial-gradient(circle, rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+  --purple-grad: radial-gradient(circle, rgba(95, 28, 140, 1) 27%, rgba(222, 102, 212, 1) 100%);
 }
 
 *,
 *:before,
 *:after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html,
 body,
 #root,
 .App {
-    height: 100%;
+  height: 100%;
 }
 
 html {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-        'Droid Sans', 'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .App {
-    padding: 1rem;
+  padding: 1rem;
 
-    &.frozen {
-        background-color: var(--pink);
-    }
+  &.frozen {
+    background: var(--blue-grad);
+  }
 
-    &.lego {
-        background-color: var(--light-blue);
-    }
+  &.lego {
+    background: var(--red-grad);
+  }
 
-    &.masha {
-        background-color: var(--purple);
-    }
+  &.masha {
+    background: var(--purple-grad);
+  }
 }
 
 .container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-    grid-column-gap: 1.5rem;
-    column-gap: 1.5rem;
-    grid-row-gap: 1.5rem;
-    row-gap: 1.5rem;
-    justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+  grid-column-gap: 1.5rem;
+  column-gap: 1.5rem;
+  grid-row-gap: 1.5rem;
+  row-gap: 1.5rem;
+  justify-content: center;
 
-    @media only screen and (min-width: 768px) {
-        grid-template-columns: repeat(4, minmax(85px, 175px));
-    }
+  @media only screen and (min-width: 768px) {
+    grid-template-columns: repeat(4, minmax(85px, 175px));
+  }
 }
 
 .is-hidden {
-    position: absolute;
-    visibility: hidden;
-    z-index: -1;
+  position: absolute;
+  visibility: hidden;
+  z-index: -1;
 }
