@@ -9,31 +9,21 @@ export const StateProvider = ({ reducer, initialState, children }) => (
 
 export const useStateValue = () => useContext(StateContext)
 
-const mapInitialState = () => {
-  const setIds = ['a', 'b', 'c', 'd', 'e', 'f']
+const mapCardsState = () => {
+  const cardSet = ['a', 'b', 'c', 'd', 'e', 'f']
 
-  return themes.map(theme => {
+  return themes.map(({ name, maxCards }) => {
+    const halfCardsIndex = maxCards / 2 - 1
     let themeCards = []
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < maxCards; i++) {
       themeCards.push({
         id: i,
-        set: setIds[i],
+        set: i > halfCardsIndex ? cardSet[i - (halfCardsIndex + 1)] : cardSet[i],
         cardFlipped: false,
         cardMatched: false,
-        frontSrc: `./images/${theme.name}/card-${i}.png`,
-        backSrc: `./images/${theme.name}/${theme.name}.png`,
-      })
-    }
-
-    for (let i = 6; i < 12; i++) {
-      themeCards.push({
-        id: i,
-        set: setIds[i - 6],
-        cardFlipped: false,
-        cardMatched: false,
-        frontSrc: `./images/${theme.name}/card-${i - 6}.png`,
-        backSrc: `./images/${theme.name}/${theme.name}.png`,
+        frontSrc: `./images/${name}/card-${i > halfCardsIndex ? i - (halfCardsIndex + 1) : i}.png`,
+        backSrc: `./images/${name}/${name}.png`,
       })
     }
 
@@ -42,5 +32,5 @@ const mapInitialState = () => {
 }
 
 export const initialState = {
-  cards: mapInitialState(),
+  cards: mapCardsState(),
 }

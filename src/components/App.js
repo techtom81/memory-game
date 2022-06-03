@@ -2,11 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useStateValue } from '../store'
 import { Howl } from 'howler'
 
-import { Card } from './Card'
-import { ThemeSelect } from './ThemeSelect'
+import { ThemeBar } from './ThemeBar'
+import { CardList } from './CardList'
 import { Fireworks } from './Fireworks'
-
 import { themes } from '../themes'
+
 import soundFlipSrc from '../audio/plunger-pop.mp3'
 import soundCorrectSrc from '../audio/correct.mp3'
 import soundIncorrectSrc from '../audio/incorrect.mp3'
@@ -22,40 +22,39 @@ export const App = () => {
   const [cardSetArray, setCardSetArray] = useState([])
   const [gameArray, setGameArray] = useState([])
 
-  const soundFlip = new Howl({
-    src: [soundFlipSrc],
-  })
+  const sfx = {
+    soundFlip: new Howl({
+      src: [soundFlipSrc],
+    }),
+    soundcorrect: new Howl({
+      src: [soundCorrectSrc],
+    }),
+    soundIncorrect: new Howl({
+      src: [soundIncorrectSrc],
+    }),
+    soundWon: new Howl({
+      src: [soundWonSrc],
+    }),
+  }
 
-  const soundcorrect = new Howl({
-    src: [soundCorrectSrc],
-  })
-
-  const soundIncorrect = new Howl({
-    src: [soundIncorrectSrc],
-  })
-
-  const soundWon = new Howl({
-    src: [soundWonSrc],
-  })
-
-  function themeBtnClickHandler(e) {
+  const themeBtnClickHandler = event => {
     if (gamePaused || gameStarted) return false
 
-    const btn = e.currentTarget
+    const btn = event.currentTarget
     setTheme(Number(btn.id))
   }
 
-  function cardClickHandler(e) {
+  const cardClickHandler = event => {
     if (gamePaused) return false
 
-    const card = e.currentTarget
+    const card = event.currentTarget
     const cardId = Number(card.id)
     const cardSet = card.dataset.set
     const cardIndex = cards[theme].findIndex(card => card.id === cardId)
 
     if (cards[theme][cardIndex].cardFlipped) return false
 
-    soundFlip.play()
+    sfx.soundFlip.play()
 
     dispatch({
       type: 'toggleCard',
@@ -64,7 +63,7 @@ export const App = () => {
       flipped: true,
     })
 
-    if (cardSetArray.length > 0) {
+    if (cardSetArray.length) {
       setGamePaused(true)
 
       if (cardSetArray.includes(cardSet)) {
@@ -72,7 +71,7 @@ export const App = () => {
         setGameArray(prevCardSet => [...prevCardSet, cardSet])
 
         setTimeout(() => {
-          soundcorrect.play()
+          sfx.soundcorrect.play()
 
           // animate matching cards
           dispatch({
@@ -92,7 +91,7 @@ export const App = () => {
         setCardSetArray([])
 
         setTimeout(() => {
-          soundIncorrect.play()
+          sfx.soundIncorrect.play()
         }, 500)
         setTimeout(resetCards, 1000)
       }
@@ -123,7 +122,7 @@ export const App = () => {
   }, [shuffleCards, theme])
 
   useEffect(() => {
-    if (cardSetArray.length > 0 || gameArray.length > 0) {
+    if (cardSetArray.length || gameArray.length) {
       setGameStarted(true)
     } else {
       setGameStarted(false)
@@ -136,7 +135,7 @@ export const App = () => {
 
       setTimeout(() => {
         setGameFinished(true)
-        soundWon.play()
+        sfx.soundWon.play()
       }, 1000)
 
       setTimeout(() => {
@@ -157,40 +156,9 @@ export const App = () => {
   }, [gameArray, theme])
 
   return (
-    <div className={'App ' + themes[theme].name}>
-      {
-        // refactor to themeBar component
-      }
-      <div className="theme-btn-wrapper">
-        {themes.map(x => (
-          <ThemeSelect
-            key={x.id}
-            id={x.id}
-            logo={x.logo}
-            themeName={x.name}
-            disabled={gameStarted}
-            theme={theme}
-            clickHandler={themeBtnClickHandler}
-          />
-        ))}
-      </div>
-      {
-        // refactor to cardList component
-      }
-      <div className="container">
-        {cards[theme].map(x => (
-          <Card
-            key={x.id}
-            backSrc={x.backSrc}
-            frontSrc={x.frontSrc}
-            set={x.set}
-            id={x.id}
-            cardFlipped={x.cardFlipped}
-            cardMatched={x.cardMatched}
-            clickHandler={cardClickHandler}
-          />
-        ))}
-      </div>
+    <div className={`App ${themes[theme].name}`}>
+      <ThemeBar themes={themes} theme={theme} gameStarted={gameStarted} clickHandler={themeBtnClickHandler} />
+      <CardList cards={cards[theme]} clickHandler={cardClickHandler} />
       <Fireworks running={gameFinished} />
     </div>
   )

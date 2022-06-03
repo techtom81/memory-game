@@ -1,11 +1,13 @@
 export const reducer = (state, action) => {
-  const cardsArray = [...state.cards]
-  const cardTheme = [...state.cards[action.theme]]
+  const { type, theme, cardIndex, flipped, matchingSet, value } = action
 
-  switch (action.type) {
+  const cardsArray = [...state.cards]
+  const cardTheme = [...state.cards[theme]]
+
+  switch (type) {
     case 'toggleCard':
-      cardTheme[action.cardIndex].cardFlipped = action.flipped
-      cardsArray[action.theme] = cardTheme
+      cardTheme[cardIndex].cardFlipped = flipped
+      cardsArray[theme] = cardTheme
 
       return {
         ...state,
@@ -13,10 +15,10 @@ export const reducer = (state, action) => {
       }
     case 'matchCard':
       cardTheme.forEach(card => {
-        if (card.set === action.matchingSet) card.cardMatched = true
+        if (card.set === matchingSet) card.cardMatched = true
       })
 
-      cardsArray[action.theme] = cardTheme
+      cardsArray[theme] = cardTheme
 
       return {
         ...state,
@@ -24,9 +26,9 @@ export const reducer = (state, action) => {
       }
     case 'resetCards':
       cardTheme.forEach(card => {
-        if (!action.value.includes(card.set)) card.cardFlipped = false
+        if (!value.includes(card.set)) card.cardFlipped = false
       })
-      cardsArray[action.theme] = cardTheme
+      cardsArray[theme] = cardTheme
 
       return {
         ...state,
@@ -38,7 +40,7 @@ export const reducer = (state, action) => {
         card.cardMatched = false
       })
 
-      cardsArray[action.theme] = cardTheme
+      cardsArray[theme] = cardTheme
 
       return {
         ...state,
@@ -54,7 +56,7 @@ export const reducer = (state, action) => {
         return array
       }
 
-      cardsArray[action.theme] = randomizeCards(cardTheme)
+      cardsArray[theme] = randomizeCards(cardTheme)
 
       return {
         ...state,
