@@ -1,6 +1,6 @@
-import { memo } from 'react'
+import React, { memo } from 'react'
 
-export const Card = memo(({ id, set, cardFlipped, cardMatched, clickHandler, backSrc, frontSrc }) => (
+export const Card = memo(({ id, set, cardFlipped, cardMatched, clickHandler, backSrc, frontSrc }: CardProps) => (
   <div className={`card-wrapper ${cardMatched ? 'is-matched' : ''}`}>
     <button id={id} data-set={set} className={`card ${cardFlipped ? 'is-flipped' : ''}`} onClick={clickHandler}>
       <div className="front">
@@ -12,3 +12,13 @@ export const Card = memo(({ id, set, cardFlipped, cardMatched, clickHandler, bac
     </button>
   </div>
 ))
+
+type CardProps = {
+  id: string
+  set: string
+  cardFlipped: boolean
+  cardMatched: boolean
+  backSrc: string
+  frontSrc: string
+  clickHandler: () => void
+}

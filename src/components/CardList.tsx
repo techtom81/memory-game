@@ -1,6 +1,7 @@
+import React from 'react'
 import { Card } from './Card'
 
-export const CardList = ({ cards, clickHandler }) => (
+export const CardList = ({ cards, clickHandler }: CardListProps) => (
   <div className="container">
     {cards.map(({ id, backSrc, frontSrc, set, cardFlipped, cardMatched }) => (
       <Card
@@ -16,3 +17,17 @@ export const CardList = ({ cards, clickHandler }) => (
     ))}
   </div>
 )
+
+type CardListProps = {
+  cards: [CardProps]
+  clickHandler: () => void
+}
+
+type CardProps = {
+  id: string
+  set: string
+  cardFlipped: boolean
+  cardMatched: boolean
+  backSrc: string
+  frontSrc: string
+}

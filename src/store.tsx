@@ -1,18 +1,25 @@
 import React, { createContext, useReducer, useContext } from 'react'
 
 import { themes } from './themes'
-export const StateContext = createContext()
+export const StateContext = createContext({})
 
-export const StateProvider = ({ reducer, initialState, children }) => (
-  <StateContext.Provider value={useReducer(reducer, initialState)}>{children}</StateContext.Provider>
-)
+export const StateProvider = ({
+  reducer,
+  initialState,
+  children,
+}: {
+  reducer: any
+  initialState: any
+  children: any
+}) => <StateContext.Provider value={useReducer(reducer, initialState)}>{children}</StateContext.Provider>
 
 export const useStateValue = () => useContext(StateContext)
 
 const mapCardsState = () => {
   const cardSet = ['a', 'b', 'c', 'd', 'e', 'f']
+  const imageRoot = './images/themes'
 
-  return themes.map(({ name, maxCards }) => {
+  return themes.map(({ name, maxCards }: { name: string; maxCards: number }) => {
     const halfCardsIndex = maxCards / 2 - 1
     let themeCards = []
 
@@ -22,8 +29,8 @@ const mapCardsState = () => {
         set: i > halfCardsIndex ? cardSet[i - (halfCardsIndex + 1)] : cardSet[i],
         cardFlipped: false,
         cardMatched: false,
-        frontSrc: `./images/${name}/card-${i > halfCardsIndex ? i - (halfCardsIndex + 1) : i}.png`,
-        backSrc: `./images/${name}/${name}.png`,
+        frontSrc: `${imageRoot}/${name}/card-${i > halfCardsIndex ? i - (halfCardsIndex + 1) : i}.png`,
+        backSrc: `${imageRoot}/${name}/${name}.png`,
       })
     }
 
