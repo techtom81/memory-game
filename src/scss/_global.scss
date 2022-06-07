@@ -6,6 +6,8 @@
   --blue-grad: radial-gradient(circle, rgba(14, 14, 217, 1) 30%, rgba(0, 212, 255, 1) 100%);
   --red-grad: radial-gradient(circle, rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
   --purple-grad: radial-gradient(circle, rgba(95, 28, 140, 1) 27%, rgba(222, 102, 212, 1) 100%);
+  --green-grad: radial-gradient(circle, rgba(2, 93, 10, 1) 25%, rgba(79, 241, 62, 1) 100%);
+  --teal-grad: radial-gradient(circle, rgba(0, 85, 67, 1) 25%, rgba(68, 255, 226, 1) 100%);
 }
 
 *,
@@ -46,6 +48,14 @@ body {
 
   &.masha {
     background: var(--purple-grad);
+  }
+
+  &.ariel {
+    background: var(--teal-grad);
+  }
+
+  &.hulk {
+    background: var(--green-grad);
   }
 }
 
