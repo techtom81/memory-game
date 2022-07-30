@@ -16,5 +16,5 @@ type ThemeSelectProps = {
   logo: string
   theme: number
   themeName: string
-  clickHandler: () => void
+  clickHandler: React.MouseEventHandler<HTMLButtonElement> | undefined
 }

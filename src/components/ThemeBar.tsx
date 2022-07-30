@@ -18,8 +18,13 @@ export const ThemeBar = ({ themes, theme, gameStarted, clickHandler }: ThemeBarP
 )
 
 type ThemeBarProps = {
-  themes: []
+  themes: {
+    id: number
+    name: string
+    maxCards: number
+    logo: string
+  }[]
   theme: number
   gameStarted: boolean
-  clickHandler: () => void
+  clickHandler: React.MouseEventHandler<HTMLButtonElement> | undefined
 }

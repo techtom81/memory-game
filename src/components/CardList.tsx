@@ -20,7 +20,7 @@ export const CardList = ({ cards, clickHandler }: CardListProps) => (
 
 type CardListProps = {
   cards: [CardProps]
-  clickHandler: () => void
+  clickHandler: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 type CardProps = {

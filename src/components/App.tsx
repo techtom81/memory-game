@@ -13,14 +13,13 @@ import soundIncorrectSrc from '../audio/incorrect.mp3'
 import soundWonSrc from '../audio/fanfare.mp3'
 
 export const App = () => {
-  const [{ cards }, dispatch] = useStateValue()
-
+  const [{ cards }, dispatch] = useStateValue() as Array<any>
   const [theme, setTheme] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
   const [gamePaused, setGamePaused] = useState(false)
   const [gameFinished, setGameFinished] = useState(false)
-  const [cardSetArray, setCardSetArray] = useState([])
-  const [gameArray, setGameArray] = useState([])
+  const [cardSetArray, setCardSetArray] = useState<Array<string | undefined>>([])
+  const [gameArray, setGameArray] = useState<Array<string | undefined>>([])
 
   const sfx = {
     soundFlip: new Howl({
@@ -37,20 +36,20 @@ export const App = () => {
     }),
   }
 
-  const themeBtnClickHandler = event => {
+  const themeBtnClickHandler = (event: { currentTarget: HTMLButtonElement }) => {
     if (gamePaused || gameStarted) return false
 
     const btn = event.currentTarget
     setTheme(Number(btn.id))
   }
 
-  const cardClickHandler = event => {
+  const cardClickHandler = (event: { currentTarget: HTMLButtonElement }) => {
     if (gamePaused) return false
 
     const card = event.currentTarget
     const cardId = Number(card.id)
-    const cardSet = card.dataset.set
-    const cardIndex = cards[theme].findIndex(card => card.id === cardId)
+    const cardSet: any = card.dataset.set
+    const cardIndex = cards[theme].findIndex((card: { id: number }) => card.id === cardId)
 
     if (cards[theme][cardIndex].cardFlipped) return false
 

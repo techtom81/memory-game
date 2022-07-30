@@ -20,5 +20,5 @@ type CardProps = {
   cardMatched: boolean
   backSrc: string
   frontSrc: string
-  clickHandler: () => void
+  clickHandler: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
