@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useContext } from 'react'
 
-import { themes } from './themes'
+import { getThemes } from './themes'
 export const StateContext = createContext({})
 
 export const StateProvider = ({
@@ -18,12 +18,13 @@ export const useStateValue = () => useContext(StateContext)
 const mapCardsState = () => {
   const cardSet = ['a', 'b', 'c', 'd', 'e', 'f']
   const imageRoot = './images/themes'
+  const themes = getThemes()
 
-  return themes.map(({ name, maxCards }: { name: string; maxCards: number }) => {
-    const halfCardsIndex = maxCards / 2 - 1
+  return themes.map(({ name, grid }: { name: string; grid: number }) => {
+    const halfCardsIndex = grid / 2 - 1
     let themeCards = []
 
-    for (let i = 0; i < maxCards; i++) {
+    for (let i = 0; i < grid; i++) {
       themeCards.push({
         id: i,
         set: i > halfCardsIndex ? cardSet[i - (halfCardsIndex + 1)] : cardSet[i],

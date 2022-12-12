@@ -5,7 +5,7 @@ import { Howl } from 'howler'
 import { ThemeBar } from './ThemeBar'
 import { CardList } from './CardList'
 import { Fireworks } from './Fireworks'
-import { themes } from '../themes'
+import { getThemes } from '../themes'
 
 import soundFlipSrc from '../audio/plunger-pop.mp3'
 import soundCorrectSrc from '../audio/correct.mp3'
@@ -20,6 +20,7 @@ export const App = () => {
   const [gameFinished, setGameFinished] = useState(false)
   const [cardSetArray, setCardSetArray] = useState<Array<string | undefined>>([])
   const [gameArray, setGameArray] = useState<Array<string | undefined>>([])
+  const themes = getThemes()
 
   const sfx = {
     soundFlip: new Howl({

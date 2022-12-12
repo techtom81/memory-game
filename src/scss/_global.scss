@@ -8,6 +8,7 @@
   --purple-grad: radial-gradient(circle, rgba(95, 28, 140, 1) 27%, rgba(222, 102, 212, 1) 100%);
   --green-grad: radial-gradient(circle, rgba(2, 93, 10, 1) 25%, rgba(79, 241, 62, 1) 100%);
   --teal-grad: radial-gradient(circle, rgba(0, 85, 67, 1) 25%, rgba(68, 255, 226, 1) 100%);
+  --pink-grad: radial-gradient(circle, rgba(128, 28, 108, 1) 25%, rgba(217, 50, 138, 1) 100%);
 }
 
 *,
@@ -56,6 +57,10 @@ body {
 
   &.hulk {
     background: var(--green-grad);
+  }
+
+  &.lol {
+    background: var(--pink-grad);
   }
 }
 
