@@ -15,7 +15,6 @@ import soundWonSrc from '../audio/fanfare.mp3'
 export const App = () => {
   const [{ cards }, dispatch] = useStateValue() as Array<any>
   const [theme, setTheme] = useState(0)
-  const [gameStarted, setGameStarted] = useState(false)
   const [gamePaused, setGamePaused] = useState(false)
   const [gameFinished, setGameFinished] = useState(false)
   const [cardSetArray, setCardSetArray] = useState<Array<string | undefined>>([])
@@ -38,10 +37,23 @@ export const App = () => {
   }
 
   const themeBtnClickHandler = (event: { currentTarget: HTMLButtonElement }) => {
-    if (gamePaused || gameStarted) return false
-
     const btn = event.currentTarget
-    setTheme(Number(btn.id))
+    const themeSelected = Number(btn.id)
+
+    if (gamePaused || themeSelected === theme) return false
+
+    dispatch({
+      type: 'resetAllCards',
+      theme,
+    })
+
+    setCardSetArray([])
+    setGameArray([])
+    setTheme(themeSelected)
+
+    // setTimeout(() => {
+    //   setTheme(themeSelected)
+    // }, 350)
   }
 
   const cardClickHandler = (event: { currentTarget: HTMLButtonElement }) => {
@@ -121,13 +133,13 @@ export const App = () => {
     shuffleCards()
   }, [shuffleCards, theme])
 
-  useEffect(() => {
-    if (cardSetArray.length || gameArray.length) {
-      setGameStarted(true)
-    } else {
-      setGameStarted(false)
-    }
-  }, [gameArray, cardSetArray])
+  // useEffect(() => {
+  //   if (cardSetArray.length || gameArray.length) {
+  //     setGameStarted(true)
+  //   } else {
+  //     setGameStarted(false)
+  //   }
+  // }, [gameArray, cardSetArray])
 
   useEffect(() => {
     if (gameArray.length === 6) {
@@ -157,7 +169,7 @@ export const App = () => {
 
   return (
     <div className={`App ${themes[theme].name}`}>
-      <ThemeBar themes={themes} theme={theme} gameStarted={gameStarted} clickHandler={themeBtnClickHandler} />
+      <ThemeBar themes={themes} theme={theme} clickHandler={themeBtnClickHandler} />
       <CardList cards={cards[theme]} clickHandler={cardClickHandler} />
       <Fireworks running={gameFinished} />
     </div>

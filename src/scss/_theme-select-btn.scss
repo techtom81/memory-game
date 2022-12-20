@@ -1,12 +1,12 @@
 .theme-btn-wrapper {
   display: flex;
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
 
   .theme-select-btn {
     background-color: #ffffff;
     border-radius: 10px;
-    border: 1px solid #d2d2d2;
-    margin-right: 0.5rem;
+    border: none;
+    margin-right: 1rem;
     transition: filter 0.4s ease-in-out;
     user-select: none;
     cursor: pointer;
@@ -21,12 +21,13 @@
     }
 
     &.is-active {
-      border: 1px solid var(--blue);
+      outline: 4px solid var(--blue);
     }
 
     img {
-      width: 50px;
+      width: 58px;
       height: auto;
+      display: block;
     }
   }
 }
