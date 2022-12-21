@@ -42,18 +42,21 @@ export const App = () => {
 
     if (gamePaused || themeSelected === theme) return false
 
-    dispatch({
-      type: 'resetAllCards',
-      theme,
-    })
+    if (gameArray.length || cardSetArray.length) {
+      setCardSetArray([])
+      setGameArray([])
 
-    setCardSetArray([])
-    setGameArray([])
-    setTheme(themeSelected)
+      dispatch({
+        type: 'resetAllCards',
+        theme,
+      })
 
-    // setTimeout(() => {
-    //   setTheme(themeSelected)
-    // }, 350)
+      setTimeout(() => {
+        setTheme(themeSelected)
+      }, 350)
+    } else {
+      setTheme(themeSelected)
+    }
   }
 
   const cardClickHandler = (event: { currentTarget: HTMLButtonElement }) => {
