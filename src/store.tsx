@@ -16,7 +16,7 @@ export const StateProvider = ({
 export const useStateValue = () => useContext(StateContext)
 
 const mapCardsState = () => {
-  const cardSet = ['a', 'b', 'c', 'd', 'e', 'f']
+  const cardSet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
   const imageRoot = './images/themes'
   const themes = getThemes()
 

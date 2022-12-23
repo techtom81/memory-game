@@ -1,8 +1,16 @@
 import React from 'react'
-import { Card } from './Card'
+import { Card } from '../Card'
+import classNames from 'classnames'
+
+import styles from './CardList.module.scss'
 
 export const CardList = ({ cards, clickHandler }: CardListProps) => (
-  <div className="container">
+  <div
+    className={classNames(styles.grid, {
+      [styles.small]: cards.length < 16,
+      [styles.medium]: cards.length > 12 && cards.length < 20,
+      [styles.large]: cards.length > 16,
+    })}>
     {cards.map(({ id, backSrc, frontSrc, set, cardFlipped, cardMatched }) => (
       <Card
         key={id}

@@ -3,7 +3,7 @@ import { useStateValue } from '../store'
 import { Howl } from 'howler'
 
 import { ThemeBar } from './ThemeBar'
-import { CardList } from './CardList'
+import { CardList } from './CardList/CardList'
 import { Fireworks } from './Fireworks'
 import { getThemes } from '../themes'
 
@@ -145,7 +145,7 @@ export const App = () => {
   // }, [gameArray, cardSetArray])
 
   useEffect(() => {
-    if (gameArray.length === 6) {
+    if (gameArray.length === cards[theme].length / 2) {
       setGamePaused(true)
 
       setTimeout(() => {

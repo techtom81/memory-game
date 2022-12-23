@@ -64,20 +64,6 @@ body {
   }
 }
 
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-  grid-column-gap: 1.5rem;
-  column-gap: 1.5rem;
-  grid-row-gap: 1.5rem;
-  row-gap: 1.5rem;
-  justify-content: center;
-
-  @media only screen and (min-width: 768px) {
-    grid-template-columns: repeat(4, minmax(85px, 175px));
-  }
-}
-
 .is-hidden {
   position: absolute;
   visibility: hidden;
