@@ -1,16 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useStateValue } from '../store'
-import { Howl } from 'howler'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 
-import { ThemeBar } from './ThemeBar'
+import { useStateValue } from '../store'
+import { ThemeBar } from './ThemeBar/ThemeBar'
 import { CardList } from './CardList/CardList'
 import { Fireworks } from './Fireworks'
 import { getThemes } from '../themes'
-
-import soundFlipSrc from '../audio/plunger-pop.mp3'
-import soundCorrectSrc from '../audio/correct.mp3'
-import soundIncorrectSrc from '../audio/incorrect.mp3'
-import soundWonSrc from '../audio/fanfare.mp3'
+import { sfx } from '../audio'
 
 export const App = () => {
   const [{ cards }, dispatch] = useStateValue() as Array<any>
@@ -19,22 +14,17 @@ export const App = () => {
   const [gameFinished, setGameFinished] = useState(false)
   const [cardSetArray, setCardSetArray] = useState<Array<string | undefined>>([])
   const [gameArray, setGameArray] = useState<Array<string | undefined>>([])
+  const [allPairsMatched, setAllPairsMatched] = useState(false)
+  const gameFinishedTimerRef = useRef<ReturnType<typeof setTimeout>>()
+  const resetGameTimerRef = useRef<ReturnType<typeof setTimeout>>()
+  const shuffleCardsTimerRef = useRef<ReturnType<typeof setTimeout>>()
+  const matchCardTimerRef = useRef<ReturnType<typeof setTimeout>>()
+  const pauseGameTimerRef = useRef<ReturnType<typeof setTimeout>>()
+  const incorrectSoundTimerRef = useRef<ReturnType<typeof setTimeout>>()
+  const resetCardsTimerRef = useRef<ReturnType<typeof setTimeout>>()
+  const setThemeTimerRef = useRef<ReturnType<typeof setTimeout>>()
   const themes = getThemes()
-
-  const sfx = {
-    soundFlip: new Howl({
-      src: [soundFlipSrc],
-    }),
-    soundcorrect: new Howl({
-      src: [soundCorrectSrc],
-    }),
-    soundIncorrect: new Howl({
-      src: [soundIncorrectSrc],
-    }),
-    soundWon: new Howl({
-      src: [soundWonSrc],
-    }),
-  }
+  const { soundFlip, soundCorrect, soundIncorrect, soundWon } = sfx
 
   const themeBtnClickHandler = (event: { currentTarget: HTMLButtonElement }) => {
     const btn = event.currentTarget
@@ -51,7 +41,9 @@ export const App = () => {
         theme,
       })
 
-      setTimeout(() => {
+      clearTimeout(setThemeTimerRef.current)
+
+      setThemeTimerRef.current = setTimeout(() => {
         setTheme(themeSelected)
       }, 350)
     } else {
@@ -69,7 +61,7 @@ export const App = () => {
 
     if (cards[theme][cardIndex].cardFlipped) return false
 
-    sfx.soundFlip.play()
+    soundFlip.play()
 
     dispatch({
       type: 'toggleCard',
@@ -84,9 +76,10 @@ export const App = () => {
       if (cardSetArray.includes(cardSet)) {
         // match found
         setGameArray(prevCardSet => [...prevCardSet, cardSet])
+        clearTimeout(matchCardTimerRef.current)
 
-        setTimeout(() => {
-          sfx.soundcorrect.play()
+        matchCardTimerRef.current = setTimeout(() => {
+          soundCorrect.play()
 
           // animate matching cards
           dispatch({
@@ -97,18 +90,22 @@ export const App = () => {
         }, 500)
 
         setCardSetArray([])
+        clearTimeout(pauseGameTimerRef.current)
 
-        setTimeout(() => {
+        pauseGameTimerRef.current = setTimeout(() => {
           setGamePaused(false)
         }, 1000)
       } else {
         // no match
         setCardSetArray([])
+        clearTimeout(incorrectSoundTimerRef.current)
 
-        setTimeout(() => {
-          sfx.soundIncorrect.play()
+        incorrectSoundTimerRef.current = setTimeout(() => {
+          soundIncorrect.play()
         }, 500)
-        setTimeout(resetCards, 1000)
+
+        clearTimeout(resetCardsTimerRef.current)
+        resetCardsTimerRef.current = setTimeout(resetCards, 1000)
       }
     } else {
       setCardSetArray(cardSet)
@@ -136,39 +133,47 @@ export const App = () => {
     shuffleCards()
   }, [shuffleCards, theme])
 
-  // useEffect(() => {
-  //   if (cardSetArray.length || gameArray.length) {
-  //     setGameStarted(true)
-  //   } else {
-  //     setGameStarted(false)
-  //   }
-  // }, [gameArray, cardSetArray])
+  const handleGameFinished = useCallback(() => {
+    setGamePaused(true)
+
+    gameFinishedTimerRef.current = setTimeout(() => {
+      setGameFinished(true)
+      soundWon.play()
+    }, 1000)
+
+    resetGameTimerRef.current = setTimeout(() => {
+      dispatch({
+        type: 'resetAllCards',
+        theme,
+      })
+      setGameArray([])
+      setGameFinished(false)
+    }, 6000)
+
+    shuffleCardsTimerRef.current = setTimeout(() => {
+      shuffleCards()
+      setGamePaused(false)
+      setAllPairsMatched(false)
+    }, 6500)
+  }, [dispatch, shuffleCards, soundWon, theme])
 
   useEffect(() => {
     if (gameArray.length === cards[theme].length / 2) {
-      setGamePaused(true)
-
-      setTimeout(() => {
-        setGameFinished(true)
-        sfx.soundWon.play()
-      }, 1000)
-
-      setTimeout(() => {
-        dispatch({
-          type: 'resetAllCards',
-          theme,
-        })
-        setGameArray([])
-        setGameFinished(false)
-      }, 6000)
-
-      setTimeout(() => {
-        shuffleCards()
-        setGamePaused(false)
-      }, 6500)
+      setAllPairsMatched(true)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameArray, theme])
+  }, [cards, gameArray.length, theme])
+
+  useEffect(() => {
+    if (allPairsMatched) {
+      handleGameFinished()
+    }
+
+    return () => {
+      clearTimeout(gameFinishedTimerRef.current)
+      clearTimeout(resetGameTimerRef.current)
+      clearTimeout(shuffleCardsTimerRef.current)
+    }
+  }, [allPairsMatched, handleGameFinished])
 
   return (
     <div className={`App ${themes[theme].name}`}>
@@ -178,3 +183,12 @@ export const App = () => {
     </div>
   )
 }
+
+// Check if game is started
+// useEffect(() => {
+//   if (cardSetArray.length || gameArray.length) {
+//     setGameStarted(true)
+//   } else {
+//     setGameStarted(false)
+//   }
+// }, [gameArray, cardSetArray])

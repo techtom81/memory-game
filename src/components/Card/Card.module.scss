@@ -1,10 +1,10 @@
-.card-wrapper {
+.cardWrapper {
   position: relative;
   padding-top: 100%;
   perspective: 800px;
   user-select: none;
 
-  &.is-matched {
+  &.isMatched {
     animation: grow 0.35s forwards, spin 0.45s 0.35s linear, shrink 0.35s 0.8s forwards;
   }
 
@@ -24,7 +24,7 @@
     padding: 0;
     box-shadow: -3px 3px 8px rgba(0, 0, 0, 0.3);
 
-    &.is-flipped {
+    &.isFlipped {
       transform: rotate3d(0, 1, 0, -180deg);
       box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
     }

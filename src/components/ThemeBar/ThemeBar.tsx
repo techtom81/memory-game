@@ -1,12 +1,14 @@
 import React from 'react'
-import { ThemeSelect } from './ThemeSelect'
+import { ThemeButton } from '../ThemeButton/ThemeButton'
+
+import styles from './ThemeBar.module.scss'
 
 export const ThemeBar = ({ themes, theme, clickHandler }: ThemeBarProps) => (
-  <div className="theme-btn-wrapper">
+  <div className={styles.themeBar}>
     {themes.map(({ id, name }: { id: number; name: string }) => {
       const logo = `./images/themes/${name}/${name}.png`
 
-      return <ThemeSelect key={id} id={id} logo={logo} themeName={name} theme={theme} clickHandler={clickHandler} />
+      return <ThemeButton key={id} id={id} logo={logo} themeName={name} theme={theme} clickHandler={clickHandler} />
     })}
   </div>
 )

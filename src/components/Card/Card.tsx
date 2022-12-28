@@ -1,12 +1,19 @@
 import React, { memo } from 'react'
+import classNames from 'classnames'
+
+import styles from './Card.module.scss'
 
 export const Card = memo(({ id, set, cardFlipped, cardMatched, clickHandler, backSrc, frontSrc }: CardProps) => (
-  <div className={`card-wrapper ${cardMatched ? 'is-matched' : ''}`}>
-    <button id={id} data-set={set} className={`card ${cardFlipped ? 'is-flipped' : ''}`} onClick={clickHandler}>
-      <div className="front">
+  <div className={classNames(styles.cardWrapper, { [styles.isMatched]: cardMatched })}>
+    <button
+      id={id}
+      data-set={set}
+      className={classNames(styles.card, { [styles.isFlipped]: cardFlipped })}
+      onClick={clickHandler}>
+      <div className={styles.front}>
         <img src={backSrc} alt="" draggable="false" />
       </div>
-      <div className="back">
+      <div className={styles.back}>
         <img src={frontSrc} alt="" draggable="false" />
       </div>
     </button>

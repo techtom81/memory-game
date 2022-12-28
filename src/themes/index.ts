@@ -5,10 +5,10 @@ export const getThemes = () => {
     themeList[i].id = i
   }
 
-  return themeList as ThemesProps
+  return themeList as ThemeProps
 }
 
-type ThemesProps = {
+type ThemeProps = {
   id: number
   name: string
   grid: number
