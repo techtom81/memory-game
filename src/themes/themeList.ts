@@ -4,7 +4,7 @@ export const themeList: ThemeListProps = [
   { name: 'masha', grid: 12 },
   { name: 'ariel', grid: 12 },
   { name: 'hulk', grid: 12 },
-  { name: 'lol', grid: 16 },
+  { name: 'lol', grid: 20 },
 ]
 
 type ThemeListProps = {
