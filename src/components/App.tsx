@@ -129,10 +129,6 @@ export const App = () => {
     })
   }, [dispatch, theme])
 
-  useEffect(() => {
-    shuffleCards()
-  }, [shuffleCards, theme])
-
   const handleGameFinished = useCallback(() => {
     setGamePaused(true)
 
@@ -156,6 +152,10 @@ export const App = () => {
       setAllPairsMatched(false)
     }, 6500)
   }, [dispatch, shuffleCards, soundWon, theme])
+
+  useEffect(() => {
+    shuffleCards()
+  }, [shuffleCards, theme])
 
   useEffect(() => {
     if (gameArray.length === cards[theme].length / 2) {
@@ -183,12 +183,3 @@ export const App = () => {
     </div>
   )
 }
-
-// Check if game is started
-// useEffect(() => {
-//   if (cardSetArray.length || gameArray.length) {
-//     setGameStarted(true)
-//   } else {
-//     setGameStarted(false)
-//   }
-// }, [gameArray, cardSetArray])

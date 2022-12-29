@@ -20,7 +20,7 @@ const mapCardsState = () => {
   const imageRoot = './images/themes'
   const themes = getThemes()
 
-  return themes.map(({ name, grid }: { name: string; grid: number }) => {
+  return themes.map(({ name, grid = 12 }: { name: string; grid?: number }) => {
     const halfCardsIndex = grid / 2 - 1
     let themeCards = []
 

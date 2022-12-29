@@ -11,5 +11,5 @@ export const getThemes = () => {
 type ThemeProps = {
   id: number
   name: string
-  grid: number
+  grid?: number
 }[]

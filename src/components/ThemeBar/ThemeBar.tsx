@@ -17,7 +17,7 @@ type ThemeBarProps = {
   themes: {
     id: number
     name: string
-    grid: number
+    grid?: number
   }[]
   theme: number
   clickHandler: React.MouseEventHandler<HTMLButtonElement> | undefined

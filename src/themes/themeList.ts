@@ -1,14 +1,14 @@
 export const themeList: ThemeListProps = [
-  { name: 'frozen', grid: 12 },
-  { name: 'lego', grid: 12 },
-  { name: 'masha', grid: 12 },
-  { name: 'ariel', grid: 12 },
-  { name: 'hulk', grid: 12 },
+  { name: 'frozen' },
+  { name: 'lego' },
+  { name: 'masha' },
+  { name: 'ariel' },
+  { name: 'hulk' },
   { name: 'lol', grid: 20 },
 ]
 
 type ThemeListProps = {
   id?: number
   name: string
-  grid: number
+  grid?: number
 }[]
