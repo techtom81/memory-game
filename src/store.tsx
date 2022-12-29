@@ -17,7 +17,7 @@ export const useStateValue = () => useContext(StateContext)
 
 const mapCardsState = () => {
   const cardSet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-  const imageRoot = './images/themes'
+  const imageRoot = '/images/themes'
   const themes = getThemes()
 
   return themes.map(({ name, grid = 12 }: { name: string; grid?: number }) => {

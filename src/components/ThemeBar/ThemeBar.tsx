@@ -3,12 +3,12 @@ import { ThemeButton } from '../ThemeButton/ThemeButton'
 
 import styles from './ThemeBar.module.scss'
 
-export const ThemeBar = ({ themes, theme, clickHandler }: ThemeBarProps) => (
+export const ThemeBar = ({ themes, clickHandler }: ThemeBarProps) => (
   <div className={styles.themeBar}>
     {themes.map(({ id, name }: { id: number; name: string }) => {
       const logo = `./images/themes/${name}/${name}.png`
 
-      return <ThemeButton key={id} id={id} logo={logo} themeName={name} theme={theme} clickHandler={clickHandler} />
+      return <ThemeButton key={id} id={id} logo={logo} themeName={name} clickHandler={clickHandler} />
     })}
   </div>
 )
@@ -19,6 +19,5 @@ type ThemeBarProps = {
     name: string
     grid?: number
   }[]
-  theme: number
   clickHandler: React.MouseEventHandler<HTMLButtonElement> | undefined
 }

@@ -19,8 +19,7 @@
 
 html,
 body,
-#root,
-.App {
+#root {
   height: 100%;
 }
 
@@ -34,34 +33,6 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.App {
-  padding: 1rem;
-
-  &.frozen {
-    background: var(--blue-grad);
-  }
-
-  &.lego {
-    background: var(--red-grad);
-  }
-
-  &.masha {
-    background: var(--purple-grad);
-  }
-
-  &.ariel {
-    background: var(--teal-grad);
-  }
-
-  &.hulk {
-    background: var(--green-grad);
-  }
-
-  &.lol {
-    background: var(--pink-grad);
-  }
 }
 
 .is-hidden {
