@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import classNames from 'classnames'
 
 import { useStateValue } from '../../store'
-import { CardList } from '../CardList/CardList'
-import { Fireworks } from '../Fireworks'
 import { getThemes } from '../../themes'
+import { CardList } from '../CardList/CardList'
+import { BackButton } from '../BackButton/BackButton'
+import { Fireworks } from '../Fireworks'
 import { sfx } from '../../audio'
 
 import styles from './MemoryGame.module.scss'
-import classNames from 'classnames'
 
 export const MemoryGame = () => {
   const [{ cards }, dispatch] = useStateValue() as Array<any>
@@ -28,6 +29,11 @@ export const MemoryGame = () => {
   const themes = getThemes()
   const { soundFlip, soundCorrect, soundIncorrect, soundWon } = sfx
   const { themeId } = useParams()
+  const navigate = useNavigate()
+
+  const backButtonHandler = () => {
+    navigate('/')
+  }
 
   const cardClickHandler = (event: { currentTarget: HTMLButtonElement }) => {
     if (theme === null || gamePaused) return false
@@ -139,6 +145,15 @@ export const MemoryGame = () => {
     }
   }, [themeId, themes])
 
+  useLayoutEffect(() => {
+    if (theme !== null) {
+      dispatch({
+        type: 'resetAllCards',
+        theme,
+      })
+    }
+  }, [dispatch, theme])
+
   useEffect(() => {
     if (theme !== null) {
       shuffleCards()
@@ -167,6 +182,7 @@ export const MemoryGame = () => {
     <>
       {theme !== null && (
         <div className={classNames(styles.app, styles[`${themes[theme].name}`])}>
+          <BackButton clickHandler={backButtonHandler} />
           <CardList cards={cards[theme]} clickHandler={cardClickHandler} />
           <Fireworks running={gameFinished} />
         </div>

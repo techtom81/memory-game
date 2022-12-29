@@ -1,10 +1,9 @@
 import React, { memo } from 'react'
-import classNames from 'classnames'
 
 import styles from './ThemeButton.module.scss'
 
 export const ThemeButton = memo(({ id, clickHandler, logo, themeName }: ThemeButtonProps) => (
-  <button className={classNames(styles.themeButton)} id={id.toString()} onClick={clickHandler}>
+  <button className={styles.themeButton} id={id.toString()} onClick={clickHandler}>
     <img src={logo} alt={themeName} draggable="false" />
   </button>
 ))
