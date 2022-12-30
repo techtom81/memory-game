@@ -6,6 +6,7 @@ import { useStateValue } from '../../store'
 import { getThemes } from '../../themes'
 import { CardList } from '../CardList/CardList'
 import { BackButton } from '../BackButton/BackButton'
+import { Timer } from '../Timer/Timer'
 import { Fireworks } from '../Fireworks'
 import { sfx } from '../../audio'
 
@@ -19,6 +20,7 @@ export const MemoryGame = () => {
   const [cardSetArray, setCardSetArray] = useState<Array<string | undefined>>([])
   const [gameArray, setGameArray] = useState<Array<string | undefined>>([])
   const [allPairsMatched, setAllPairsMatched] = useState(false)
+  const [timerStarted, setTimerStarted] = useState(false)
   const gameFinishedTimerRef = useRef<ReturnType<typeof setTimeout>>()
   const resetGameTimerRef = useRef<ReturnType<typeof setTimeout>>()
   const shuffleCardsTimerRef = useRef<ReturnType<typeof setTimeout>>()
@@ -44,6 +46,7 @@ export const MemoryGame = () => {
     const cardIndex = cards[theme].findIndex((card: { id: number }) => card.id === cardId)
 
     if (cards[theme][cardIndex].cardFlipped) return false
+    if (!timerStarted) setTimerStarted(true)
 
     soundFlip.play()
 
@@ -115,6 +118,7 @@ export const MemoryGame = () => {
 
   const handleGameFinished = useCallback(() => {
     setGamePaused(true)
+    setTimerStarted(false)
 
     gameFinishedTimerRef.current = setTimeout(() => {
       setGameFinished(true)
@@ -183,6 +187,7 @@ export const MemoryGame = () => {
       {theme !== null && (
         <div className={classNames(styles.app, styles[`${themes[theme].name}`])}>
           <BackButton clickHandler={backButtonHandler} />
+          <Timer timerStarted={timerStarted} />
           <CardList cards={cards[theme]} clickHandler={cardClickHandler} />
           <Fireworks running={gameFinished} />
         </div>

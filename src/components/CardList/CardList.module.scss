@@ -21,7 +21,7 @@
 
   &.large {
     @media only screen and (min-width: 768px) {
-      grid-template-columns: repeat(5, minmax(85px, 140px));
+      grid-template-columns: repeat(5, minmax(85px, 130px));
     }
   }
 }

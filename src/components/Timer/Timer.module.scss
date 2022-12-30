@@ -1,0 +1,21 @@
+.timer {
+  position: absolute;
+  right: 20px;
+  font-size: 40px;
+  color: #fff;
+  margin: 0;
+
+  span {
+    width: 50px;
+    text-align: left;
+    display: inline-block;
+  }
+
+  .minutes {
+    text-align: right;
+  }
+
+  .milliSeconds {
+    width: 25px;
+  }
+}
