@@ -38,7 +38,6 @@ export const MemoryGame = () => {
 
   const cardClickHandler = (event: { currentTarget: HTMLButtonElement }) => {
     if (theme === null || gamePaused) return false
-    console.log(gameArray)
 
     const card = event.currentTarget
     const cardId = Number(card.id)
