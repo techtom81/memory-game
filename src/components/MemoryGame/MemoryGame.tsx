@@ -32,13 +32,13 @@ export const MemoryGame = () => {
   const { soundFlip, soundCorrect, soundIncorrect, soundWon } = sfx
   const { themeId } = useParams()
   const navigate = useNavigate()
-
   const backButtonHandler = () => {
     navigate('/')
   }
 
   const cardClickHandler = (event: { currentTarget: HTMLButtonElement }) => {
     if (theme === null || gamePaused) return false
+    console.log(gameArray)
 
     const card = event.currentTarget
     const cardId = Number(card.id)
@@ -185,7 +185,7 @@ export const MemoryGame = () => {
   return (
     <>
       {theme !== null && (
-        <div className={classNames(styles.app, styles[`${themes[theme].name}`])}>
+        <div data-testid={themes[theme].name} className={classNames(styles.app, styles[`${themes[theme].name}`])}>
           <BackButton clickHandler={backButtonHandler} />
           <Timer timerStarted={timerStarted} />
           <CardList cards={cards[theme]} clickHandler={cardClickHandler} />

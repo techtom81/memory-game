@@ -1,6 +1,5 @@
 export const reducer = (state: any, action: any) => {
   const { type, theme, cardIndex, flipped, matchingSet, value }: ActionProps = action
-
   const cardsArray = [...state.cards]
   const cardTheme = [...state.cards[theme]]
 
