@@ -1,21 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ReactCanvasConfetti from 'react-canvas-confetti'
 
-const randomInRange = (min, max) => {
+import styles from './Fireworks.module.scss'
+
+const randomInRange = (min: number, max: number) => {
   return Math.random() * (max - min) + min
 }
 
-const canvasStyles = {
-  position: 'fixed',
-  pointerEvents: 'none',
-  width: '100%',
-  height: '100%',
-  top: 0,
-  left: 0,
-  zIndex: 10,
-}
-
-const getAnimationSettings = (originXA, originXB) => {
+const getAnimationSettings = (originXA: number, originXB: number) => {
   return {
     startVelocity: 30,
     spread: 360,
@@ -30,13 +22,13 @@ const getAnimationSettings = (originXA, originXB) => {
   }
 }
 
-export const Fireworks = ({ running }) => {
-  const refAnimationInstance = useRef(null)
-  const [intervalId, setIntervalId] = useState()
+export const Fireworks = ({ running }: { running: boolean }) => {
+  const refAnimationInstance = useRef<null | any>(null)
+  const [intervalId, setIntervalId] = useState<ReturnType<typeof setInterval>>()
 
-  const getInstance = useCallback(instance => {
+  const getInstance = (instance: any) => {
     refAnimationInstance.current = instance
-  }, [])
+  }
 
   const nextTickAnimation = useCallback(() => {
     if (refAnimationInstance.current) {
@@ -53,7 +45,8 @@ export const Fireworks = ({ running }) => {
 
   const stopAnimation = useCallback(() => {
     clearInterval(intervalId)
-    setIntervalId(null)
+    setIntervalId(undefined)
+    console.log(refAnimationInstance.current)
     refAnimationInstance.current && refAnimationInstance.current.reset()
   }, [intervalId])
 
@@ -71,5 +64,5 @@ export const Fireworks = ({ running }) => {
     }
   }, [intervalId])
 
-  return <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
+  return <ReactCanvasConfetti refConfetti={getInstance} className={styles.confettiCanvas} />
 }

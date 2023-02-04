@@ -7,7 +7,7 @@ import { getThemes } from '../../themes'
 import { CardList } from '../CardList/CardList'
 import { BackButton } from '../BackButton/BackButton'
 import { Timer } from '../Timer/Timer'
-import { Fireworks } from '../Fireworks'
+import { Fireworks } from '../Fireworks/Fireworks'
 import { sfx } from '../../audio'
 
 import styles from './MemoryGame.module.scss'
