@@ -4,12 +4,13 @@ import classNames from 'classnames'
 import styles from './Card.module.scss'
 
 export const Card = memo(({ id, set, cardFlipped, cardMatched, clickHandler, backSrc, frontSrc }: CardProps) => (
-  <div className={classNames(styles.cardWrapper, { [styles.isMatched]: cardMatched })}>
+  <div data-testid="card" className={classNames(styles.cardWrapper, { [styles.isMatched]: cardMatched })}>
     <button
       id={id}
       data-set={set}
       className={classNames(styles.card, { [styles.isFlipped]: cardFlipped })}
-      onClick={clickHandler}>
+      onClick={clickHandler}
+      aria-label="click to flip card">
       <div className={styles.front}>
         <img src={backSrc} alt="" draggable="false" />
       </div>

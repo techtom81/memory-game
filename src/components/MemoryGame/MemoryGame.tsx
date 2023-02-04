@@ -7,7 +7,7 @@ import { getThemes } from '../../themes'
 import { CardList } from '../CardList/CardList'
 import { BackButton } from '../BackButton/BackButton'
 import { Timer } from '../Timer/Timer'
-import { Fireworks } from '../Fireworks'
+import { Fireworks } from '../Fireworks/Fireworks'
 import { sfx } from '../../audio'
 
 import styles from './MemoryGame.module.scss'
@@ -32,7 +32,6 @@ export const MemoryGame = () => {
   const { soundFlip, soundCorrect, soundIncorrect, soundWon } = sfx
   const { themeId } = useParams()
   const navigate = useNavigate()
-
   const backButtonHandler = () => {
     navigate('/')
   }
@@ -185,7 +184,7 @@ export const MemoryGame = () => {
   return (
     <>
       {theme !== null && (
-        <div className={classNames(styles.app, styles[`${themes[theme].name}`])}>
+        <div data-testid={themes[theme].name} className={classNames(styles.app, styles[`${themes[theme].name}`])}>
           <BackButton clickHandler={backButtonHandler} />
           <Timer timerStarted={timerStarted} />
           <CardList cards={cards[theme]} clickHandler={cardClickHandler} />

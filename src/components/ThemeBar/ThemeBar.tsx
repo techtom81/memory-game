@@ -4,7 +4,7 @@ import { ThemeButton } from '../ThemeButton/ThemeButton'
 import styles from './ThemeBar.module.scss'
 
 export const ThemeBar = ({ themes, clickHandler }: ThemeBarProps) => (
-  <div className={styles.themeBar}>
+  <div data-testid="themebar" className={styles.themeBar}>
     {themes.map(({ id, name }: { id: number; name: string }) => {
       const logo = `./images/themes/${name}/${name}.png`
 
