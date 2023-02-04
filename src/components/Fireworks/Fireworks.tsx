@@ -46,7 +46,6 @@ export const Fireworks = ({ running }: { running: boolean }) => {
   const stopAnimation = useCallback(() => {
     clearInterval(intervalId)
     setIntervalId(undefined)
-    console.log(refAnimationInstance.current)
     refAnimationInstance.current && refAnimationInstance.current.reset()
   }, [intervalId])
 
